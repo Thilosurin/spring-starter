@@ -1,5 +1,7 @@
 package com.starter.services;
 
+import com.starter.models.UserModel;
+import com.starter.models.UserObject;
 import reactor.core.publisher.Mono;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,10 +15,12 @@ public class UserService {
         this.webClient = webClientBuilder.baseUrl("https://randomuser.me/api/").build();
     }
 
-    public Mono<Object> getUserBySeed(String seed) {
+    public Mono<UserObject[]> getUserBySeed(String seed) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder.queryParam("seed", seed).build())
                 .retrieve()
-                .bodyToMono(Object.class).log();
+                .bodyToMono(UserModel.class)
+                .map(res -> res.results)
+                .log();
     }
 }

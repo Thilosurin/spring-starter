@@ -1,5 +1,6 @@
 package com.starter.controllers;
 
+import com.starter.models.UserObject;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import com.starter.services.UserService;
@@ -16,7 +17,7 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/{seed}")
-    public Mono<Object> getUserBySeed(@PathVariable String seed) {
+    public Mono<UserObject[]> getUserBySeed(@PathVariable String seed) {
         return service.getUserBySeed(seed);
     }
 }
